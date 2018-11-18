@@ -1,0 +1,33 @@
+<h5>Clients Search</h5>
+<form class="form-horizontal">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">Client Name</span>
+    </div>
+    <input type="text" [formControl]="searchName" name="searchName" class="form-control" aria-label="Client name" aria-describedby="basic-addon1">
+  </div>
+</form>
+<div class="shadow p-3 mb-5 bg-white rounded">
+  <table class="table table-sm table-striped table-hover">
+      <thead class="thead-dark ">
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Client Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Active Directory Name</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let d of data">
+              <th scope="row">{{d.clientId}}</th>
+              <td>{{d.name}}</td>
+              <td>{{d.description}}</td>
+              <td>{{d.activeDirectoryGroup}}</td>
+              <td> <button class="btn btn-sm btn-outline-primary" (click)="clientEdit.open(d.clientId, getSelectedItem(d.clientId))">Edit</button> </td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+<ngb-pagination [(collectionSize)]="totalRows" [(page)]="page" aria-label="Default pagination" (pageChange)="pageRefresh()" ></ngb-pagination>
+<app-client-edit #clientEdit></app-client-edit>

@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Edit Client Data</h4>
+  <button type="button" class="close" aria-label="Close" (click)="dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+<form class="form-horizontal">
+  <div class="form-group mb-3 ">
+    <label class="control-label col-sm-2" for="clientId">ClientId:</label>
+    <span id="clientId" class="col-sm-10">
+      <span class="form-control-static">{{selectedItem.clientId}}</span>
+    </span>
+  </div>
+  <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Client Name</span>
+      </div>
+      <input type="text" [(ngModel)]="selectedItem.name" name="ClientName" class="form-control" aria-label="Client name" aria-describedby="basic-addon1">
+  </div>
+
+  <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Description</span>
+      </div>
+      <input type="text" [(ngModel)]="selectedItem.description" name="ClientDescription" class="form-control" aria-label="Description" aria-describedby="basic-addon1" value="{{selectedItem.description}}">
+  </div>
+
+  <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Active Directory Name</span>
+      </div>
+      <input type="text" [(ngModel)]="selectedItem.activeDirectoryGroup" name="ClientActiveDirectoryGroup" class="form-control" aria-label="Active Directory Name" aria-describedby="basic-addon1" value="{{selectedItem.activeDirectoryGroup}}">
+  </div>
+</form>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-dark" (click)="saveData('Save click')">Save</button>
+</div>
