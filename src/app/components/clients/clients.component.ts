@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { StellarConfigApiService } from '../../services/stellar-config-api.service';
 
 @Component({
   selector: 'app-clients',
@@ -21,7 +22,7 @@ export class ClientsComponent implements OnInit {
   totalRows;
   searchName: FormControl;
   selectedItem;
-  constructor(private modalService: NgbModal, private http: HttpClient) {   }
+  constructor(private modalService: NgbModal, private scSvc: StellarConfigApiService) {   }
   ngOnInit() {
     this.searchName = new FormControl('');
     this.searchName.valueChanges
@@ -33,7 +34,7 @@ export class ClientsComponent implements OnInit {
 
   pageRefresh() {
     this.currentMessage = 'selected page' + this.page;
-    this.getClients(this.page, 10).subscribe(
+    this.scSvc.getClients(this.searchName.value, this.page, 10).subscribe(
       data => {
         this.data = data.data;
         this.totalRows = data.totalRows;
@@ -44,6 +45,9 @@ export class ClientsComponent implements OnInit {
   }
 
   getSelectedItem(id) {
+    if (id === -1) {
+      return {clientId: id, name: '', description: '', activeDirectoryGroup: ''};
+    }
     for (let i = 0; i < this.data.length; i++) {
       const e = this.data[i];
       if ( e.clientId === id ) {
@@ -52,15 +56,6 @@ export class ClientsComponent implements OnInit {
       }
     }
     return this.selectedItem;
-  }
-
-  getClients (index, size): Observable<any> {
-    const req = 'http://localhost:51447/api/StellarConfig/ClientList';
-    const params = new HttpParams()
-          .append('clientName', this.searchName.value)
-          .append('index', index)
-          .append('size', size);
-    return this.http.get(req, {params});
   }
 
 }

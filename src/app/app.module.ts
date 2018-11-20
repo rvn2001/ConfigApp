@@ -12,6 +12,7 @@ import { environment } from '../environments/environment';
 import { ClientsComponent } from './components/clients/clients.component';
 import { ClientEditComponent } from './components/clients/client-edit/client-edit.component';
 import { ClientEditTemplateComponent } from './components/clients/client-edit-template/client-edit-template.component';
+import { StellarConfigApiService } from './services/stellar-config-api.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { ClientEditTemplateComponent } from './components/clients/client-edit-te
     ReactiveFormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
+  providers: [StellarConfigApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ClientEditTemplateComponent } from '../client-edit-template/client-edit-template.component'
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ClientEditTemplateComponent } from '../client-edit-template/client-edit-template.component';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {Subject} from 'rxjs';
@@ -19,6 +19,7 @@ export class ClientEditComponent implements OnInit {
   closeResult: string;
   private modal: NgbModalRef;
   @Input() selectedItem;
+  @Output() save = new EventEmitter<void>();
   alertMessage: string;
   private _alert = new Subject<string>();
   messageType = 'success';
@@ -40,18 +41,19 @@ export class ClientEditComponent implements OnInit {
                 if (data === true) {
                   this.successAlert('Updated Sucsessfuly');
                 } else {
-                  this.errorAlert('Updated Failed!')
+                  this.errorAlert('Updated Failed!');
                 }
+                this.save.emit();
               },
               error => { this.errorAlert('Updated Failed with exception!'); }
               );
   }
 
-  errorAlert(message: string){
+  errorAlert(message: string) {
     this.messageType = 'danger';
     this._alert.next(message);
   }
-  successAlert(message: string){
+  successAlert(message: string) {
     this.messageType = 'success';
     this._alert.next(message);
   }
@@ -60,6 +62,11 @@ export class ClientEditComponent implements OnInit {
     this.selectedItem = itm;
     this.modal = this.modalService.open(ClientEditTemplateComponent);
     this.modal.componentInstance.selectedItem = this.selectedItem;
+    if (this.selectedItem.clientId < 0 ) {
+      this.modal.componentInstance.title = 'Add New Client';
+    } else {
+      this.modal.componentInstance.title = 'Edit Client';
+    }
     this.modal.componentInstance.save.subscribe(a => this.onSave());
    }
 }

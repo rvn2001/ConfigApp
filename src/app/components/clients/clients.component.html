@@ -27,7 +27,13 @@
               <td> <button class="btn btn-sm btn-outline-primary" (click)="clientEdit.open(d.clientId, getSelectedItem(d.clientId))">Edit</button> </td>
           </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5"><button type="button" class="btn btn-outline-primary btn-sm" (click)="clientEdit.open(-1, getSelectedItem(-1))">New Client</button></td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 <ngb-pagination [(collectionSize)]="totalRows" [(page)]="page" aria-label="Default pagination" (pageChange)="pageRefresh()" ></ngb-pagination>
-<app-client-edit #clientEdit></app-client-edit>
+
+<app-client-edit (save)="pageRefresh()" #clientEdit ></app-client-edit>
